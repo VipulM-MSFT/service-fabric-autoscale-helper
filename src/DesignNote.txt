@@ -1,0 +1,12 @@
+RunAsync
+
+EventHistory - 100
+EnableNodeManager
+	NodeManager
+		ScaleIntervalSeconds = 5 minutes
+		NodeTypes = "not same as where I am running"
+		NodeDownGraceInterval = 5 minutes
+		ManageDuringFabricUpgrade = false
+
+
+	
