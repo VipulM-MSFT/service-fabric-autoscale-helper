@@ -1,9 +1,9 @@
-﻿using Microsoft.ServiceFabric.Actors.Runtime;
-using System;
-using System.Threading;
-
-namespace NodeManager
+﻿namespace NodeManager
 {
+    using Microsoft.ServiceFabric.Actors.Runtime;
+    using System;
+    using System.Threading;
+
     internal static class Program
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace NodeManager
                 // For more information, see https://aka.ms/servicefabricactorsplatform
 
                 ActorRuntime.RegisterActorAsync<NodeManager>(
-                   (context, actorType) => new ActorService(context, actorType)).GetAwaiter().GetResult();
+                   (context, actorType) => new NodeManagerService(context, actorType)).GetAwaiter().GetResult();
 
                 Thread.Sleep(Timeout.Infinite);
             }

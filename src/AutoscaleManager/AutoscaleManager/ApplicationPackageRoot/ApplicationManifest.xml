@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="AutoscaleManagerType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="NodeManagerActorService_PlacementConstraints" DefaultValue="" />
     <Parameter Name="NodeManagerActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="NodeManagerActorService_MinReplicaSetSize" DefaultValue="1" />
     <Parameter Name="NodeManagerActorService_TargetReplicaSetSize" DefaultValue="1" />
@@ -12,9 +13,10 @@
     <ServiceManifestRef ServiceManifestName="NodeManagerPkg" ServiceManifestVersion="1.0.0" />
   </ServiceManifestImport>
   <DefaultServices>
-    <Service Name="NodeManagerActorService" GeneratedIdRef="71c260a9-e2a8-40fa-8b03-3292c69eb133|None">
-      <StatefulService ServiceTypeName="NodeManagerActorServiceType" TargetReplicaSetSize="[NodeManagerActorService_TargetReplicaSetSize]" MinReplicaSetSize="[NodeManagerActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[NodeManagerActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+    <Service Name="NodeManagerActorService" GeneratedIdRef="464501a7-7bd6-4bc3-bc55-185a7c349a87|None">
+      <StatefulService ServiceTypeName="NodeManagerActorServiceType">
+        <UniformInt64Partition PartitionCount="1" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+        <PlacementConstraints>[NodeManagerActorService_PlacementConstraints]</PlacementConstraints>
       </StatefulService>
     </Service>
     <!-- The section below creates instances of service types, when an instance of this 

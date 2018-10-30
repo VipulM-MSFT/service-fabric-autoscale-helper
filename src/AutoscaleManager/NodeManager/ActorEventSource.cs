@@ -1,11 +1,11 @@
-﻿using Microsoft.ServiceFabric.Actors.Runtime;
-using System;
-using System.Diagnostics.Tracing;
-using System.Fabric;
-using System.Threading.Tasks;
-
-namespace NodeManager
+﻿namespace NodeManager
 {
+    using Microsoft.ServiceFabric.Actors.Runtime;
+    using System;
+    using System.Diagnostics.Tracing;
+    using System.Fabric;
+    using System.Threading.Tasks;
+
     [EventSource(Name = "MyCompany-AutoscaleManager-NodeManager")]
     internal sealed class ActorEventSource : EventSource
     {

@@ -1,9 +1,9 @@
-﻿using Microsoft.ServiceFabric.Actors;
-using Microsoft.ServiceFabric.Actors.Runtime;
-using NodeManager.Interfaces;
-
-namespace NodeManager
+﻿namespace NodeManager
 {
+    using Interfaces;
+    using Microsoft.ServiceFabric.Actors;
+    using Microsoft.ServiceFabric.Actors.Runtime;
+
     /// <remarks>
     /// This class represents an actor.
     /// Every ActorID maps to an instance of this class.
