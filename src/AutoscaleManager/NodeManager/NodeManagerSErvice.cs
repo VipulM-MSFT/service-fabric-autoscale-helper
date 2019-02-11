@@ -13,10 +13,8 @@
 
     internal class NodeManagerService : ActorService
     {
-        private static readonly TimeSpan ScanInterval;
-        private static readonly TimeSpan ClientOperationTimeout;
-        private static readonly TimeSpan DownNodeGraceInterval;
-        private static readonly bool SkipNodesUnderFabricUpgrade;
+        private readonly NodeManagerSettings nodeManagerSettings;
+        private readonly string configurationPackageName = "Config";
 
         public NodeManagerService(
             StatefulServiceContext context,
@@ -26,6 +24,7 @@
             IActorStateProvider stateProvider = null, ActorServiceSettings settings = null)
             : base(context, actorTypeInfo, actorFactory, stateManagerFactory, stateProvider, settings)
         {
+            this.nodeManagerSettings = new NodeManagerSettings(context.CodePackageActivationContext.GetConfigurationPackageObject(this.configurationPackageName).Settings);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
@@ -47,7 +46,7 @@
                 }
 
 
-                await Task.Delay(ScanInterval, cancellationToken);
+                await Task.Delay(this.nodeManagerSettings.ScanInterval, cancellationToken);
             }
         }
 
@@ -58,7 +57,7 @@
         {
             var client = new FabricClient();
 
-            if (SkipNodesUnderFabricUpgrade)
+            if (this.nodeManagerSettings.SkipNodesUnderFabricUpgrade)
             {
                 var upgradeInProgress = await IsFabricUpgradeInProgressAsync(client, cancellationToken);
 
@@ -109,7 +108,7 @@
 
                     await client.ClusterManager.RemoveNodeStateAsync(
                         node.NodeName,
-                        ClientOperationTimeout,
+                        this.nodeManagerSettings.ClientOperationTimeout,
                         cancellationToken);
 
                     Context.CodePackageActivationContext.ReportApplicationHealth(
@@ -152,7 +151,7 @@
             {
                 var nodeList = await client.QueryManager.GetNodePagedListAsync(
                     queryDescription,
-                    ClientOperationTimeout,
+                    this.nodeManagerSettings.ClientOperationTimeout,
                     cancellationToken);
                 foreach (var node in nodeList)
                 {
@@ -188,7 +187,7 @@
                 node.NodeName,
                 downInterval);
 
-            return (downInterval.CompareTo(DownNodeGraceInterval) > 0);
+            return (downInterval.CompareTo(this.nodeManagerSettings.DownNodeGraceInterval) > 0);
         }
 
 
@@ -208,7 +207,7 @@
                 this.Context,
                 "Checking if FabricUpgrade is in progress or not.");
 
-            var upgradeProgress = await client.ClusterManager.GetFabricUpgradeProgressAsync(ClientOperationTimeout, cancellationToken);
+            var upgradeProgress = await client.ClusterManager.GetFabricUpgradeProgressAsync(this.nodeManagerSettings.ClientOperationTimeout, cancellationToken);
 
             if ((upgradeProgress.UpgradeState == FabricUpgradeState.RollingBackInProgress) ||
                 (upgradeProgress.UpgradeState == FabricUpgradeState.RollingForwardInProgress) ||
@@ -220,14 +219,6 @@
             {
                 return false;
             }
-        }
-
-        static NodeManagerService()
-        {
-            ScanInterval = TimeSpan.FromSeconds(60);
-            ClientOperationTimeout = TimeSpan.FromSeconds(30);
-            DownNodeGraceInterval = TimeSpan.FromSeconds(120);
-            SkipNodesUnderFabricUpgrade = true;
         }
     }
 
