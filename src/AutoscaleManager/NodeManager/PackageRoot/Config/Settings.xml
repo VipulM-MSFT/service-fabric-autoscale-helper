@@ -7,5 +7,11 @@
   <Section Name="NodeManagerActorServiceReplicatorSecurityConfig">
     <Parameter Name="CredentialType" Value="None" />
   </Section>
+  <Section Name="NodeManagerSettings">
+    <Parameter Name="ScanIntervalInSeconds" Value="60" />
+    <Parameter Name="ClientOperationTimeoutInSeconds" Value="30" />
+    <Parameter Name="DownNodeGraceIntervalInSeconds" Value="120" />
+    <Parameter Name="SkipNodesUnderFabricUpgrade" Value="true" />
+  </Section>
   <!-- The content will be generated during build -->
 </Settings>
