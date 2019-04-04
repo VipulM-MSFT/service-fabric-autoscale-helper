@@ -16,6 +16,7 @@
         private static readonly TimeSpan ScanInterval;
         private static readonly TimeSpan ClientOperationTimeout;
         private static readonly TimeSpan DownNodeGraceInterval;
+        private static readonly TimeSpan HealthReportTTL;
         private static readonly bool SkipNodesUnderFabricUpgrade;
 
         public NodeManagerService(
@@ -73,7 +74,7 @@
                         new HealthInformation("NodeManager", "FabricUpgrade", HealthState.Ok)
                         {
                             RemoveWhenExpired = true,
-                            TimeToLive = TimeSpan.FromSeconds(300),
+                            TimeToLive = HealthReportTTL,
                             Description = "Skipping removing scaled-in nodes as fabric upgrade is in progress."
                         });
                     return;
@@ -86,7 +87,7 @@
                 new HealthInformation("NodeManager", "Scan", HealthState.Ok)
                 {
                     RemoveWhenExpired = true,
-                    TimeToLive = TimeSpan.FromSeconds(300),
+                    TimeToLive = HealthReportTTL,
                     Description = $"Completed scan to remove scaled-in nodes. Found {nodesToRemove.Count} nodes."
                 });
 
@@ -116,7 +117,7 @@
                         new HealthInformation("NodeManager", node.NodeName, HealthState.Ok)
                         {
                             RemoveWhenExpired = true,
-                            TimeToLive = TimeSpan.FromSeconds(300),
+                            TimeToLive = HealthReportTTL,
                             Description = "Removed scaled-in node state successfully."
                         });
                 }
@@ -132,7 +133,7 @@
                         new HealthInformation("NodeManager", node.NodeName, HealthState.Warning)
                         {
                             RemoveWhenExpired = true,
-                            TimeToLive = TimeSpan.FromSeconds(300),
+                            TimeToLive = HealthReportTTL,
                             Description = $"Failed to remove scaled-in node state, Error = {e.ToString()}"
                         });
                 }
@@ -227,6 +228,7 @@
             ScanInterval = TimeSpan.FromSeconds(60);
             ClientOperationTimeout = TimeSpan.FromSeconds(30);
             DownNodeGraceInterval = TimeSpan.FromSeconds(120);
+            HealthReportTTL = TimeSpan.FromHours(24);
             SkipNodesUnderFabricUpgrade = true;
         }
     }

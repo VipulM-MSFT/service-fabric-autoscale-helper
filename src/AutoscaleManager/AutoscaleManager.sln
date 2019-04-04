@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "AutoscaleManager", "AutoscaleManager\AutoscaleManager.sfproj", "{0D234834-26F9-4F2A-95B2-DAA43CCD8E7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeManager", "NodeManager\NodeManager.csproj", "{7FA7E70F-78B6-4DA3-BCB6-EF26D3ABBF94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeManager", "NodeManager\NodeManager.csproj", "{7FA7E70F-78B6-4DA3-BCB6-EF26D3ABBF94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeManager.Interfaces", "NodeManager.Interfaces\NodeManager.Interfaces.csproj", "{8073FD6D-EA78-4519-B3A5-612E38245EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeManager.Interfaces", "NodeManager.Interfaces\NodeManager.Interfaces.csproj", "{8073FD6D-EA78-4519-B3A5-612E38245EA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +41,7 @@ Global
 		{8073FD6D-EA78-4519-B3A5-612E38245EA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8073FD6D-EA78-4519-B3A5-612E38245EA0}.Release|x64.ActiveCfg = Release|Any CPU
 		{8073FD6D-EA78-4519-B3A5-612E38245EA0}.Release|x64.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
