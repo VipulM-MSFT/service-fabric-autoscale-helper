@@ -24,9 +24,11 @@ param
     [string]$MSBuildFullPath
 )
 
+$ErrorActionPreference = "Stop"
+
 if ($Target -eq "rebuild") {
     $restore = "-r"
-    $buildTarget = "clean;rebuild;AutoscaleManager:package"
+    $buildTarget = "clean;rebuild"
 } elseif ($Target -eq "clean") {
     $buildTarget = "clean"
 }
@@ -109,3 +111,27 @@ $msbuildArgs = @(
     "/property:Configuration=$configuration",
     $args)
 & $msbuildFullPath $msbuildArgs
+
+
+
+if ($Target -eq "rebuild") {
+    $buildTarget = "package"
+
+    $msbuildArgs = @(
+        "/nr:false", 
+        "/nologo", 
+        "$restore"
+        "/t:$buildTarget", 
+        "/verbosity:$verbosity",  
+        "/property:RuntimeIdentifier=$RuntimeIdentifier", 
+        $UpdateServiceFabricManifestEnabledProperty,
+        "/property:RequestedVerbosity=$verbosity", 
+        "/property:Configuration=$configuration",
+        $args)
+    & $msbuildFullPath AutoscaleManager/AutoscaleManager.sfproj $msbuildArgs
+
+    if ($Platform -eq "Linux") {
+        Copy-Item AutoscaleManager\pkg\$configuration\NodeManagerPkg\Code\NodeManager AutoscaleManager\pkg\$configuration\NodeManagerPkg\Code\NodeManager.exe
+    }
+} 
+

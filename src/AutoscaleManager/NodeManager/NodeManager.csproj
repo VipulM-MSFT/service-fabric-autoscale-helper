@@ -26,8 +26,4 @@
     <ProjectReference Include="..\NodeManager.Interfaces\NodeManager.Interfaces.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy NodeManager NodeManager.exe" />
-  </Target>
-
 </Project>
